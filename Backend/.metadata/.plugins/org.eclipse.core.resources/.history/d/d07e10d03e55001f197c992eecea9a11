@@ -1,0 +1,43 @@
+package com.example.ServiceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+public class GalleryServiceImpl implements GalleryService {
+    @Autowired
+    private Cloudinary cloudinary;
+
+    @Autowired
+    private GalleryRepository galleryRepository;
+
+    @Override
+    public void saveImage(Map<String, Object> uploadResult) {
+        Image image = new Image();
+        image.setPublicId((String) uploadResult.get("public_id"));
+        image.setUrl((String) uploadResult.get("url"));
+        imageRepository.save(image);
+    }
+
+    @Override
+    public void deleteImage(String publicId) {
+        Image image = imageRepository.findByPublicId(publicId);
+        if (image != null) {
+            imageRepository.delete(image);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllImages() {
+        return imageRepository.findAll().stream().map(image -> Map.of(
+                "public_id", image.getPublicId(),
+                "url", image.getUrl()
+        )).collect(Collectors.toList());
+    }
+    
+    
+}

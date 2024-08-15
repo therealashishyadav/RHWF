@@ -1,0 +1,5 @@
+package com.Gallery.Config;
+
+public class CloudinaryConfig {
+
+}

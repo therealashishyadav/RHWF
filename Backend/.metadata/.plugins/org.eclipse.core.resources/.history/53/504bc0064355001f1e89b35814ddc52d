@@ -1,0 +1,5 @@
+package com.Gallery.impl;
+
+public class ImageServiceImpl {
+
+}

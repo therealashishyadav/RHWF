@@ -1,0 +1,5 @@
+package com.Gallery.Repository;
+
+public interface ImageRepository {
+
+}

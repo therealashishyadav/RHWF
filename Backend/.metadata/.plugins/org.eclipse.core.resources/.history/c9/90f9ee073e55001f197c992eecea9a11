@@ -1,0 +1,41 @@
+package com.example.ServiceImpl;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.example.GalleryModel.GalleryItem;
+import com.example.Repository.GalleryRepository;
+import com.example.Service.GalleryService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class GalleryServiceImpl implements GalleryService {
+    @Autowired
+    private Cloudinary cloudinary;
+
+    @Autowired
+    private GalleryRepository galleryRepository;
+
+    @Override
+    public GalleryItem saveGalleryItem(String caption, MultipartFile file) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+        String imageUrl = uploadResult.get("url").toString();
+
+        GalleryItem galleryItem = new GalleryItem();
+        galleryItem.setCaption(caption);
+        galleryItem.setImageUrl(imageUrl);
+
+        return galleryRepository.save(galleryItem);
+    }
+
+    @Override
+    public List<GalleryItem> getAllGalleryItems() {
+        return galleryRepository.findAll();
+    }
+}

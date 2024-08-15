@@ -1,0 +1,4 @@
+cloudinary:
+  cloud-name: your-cloud-name
+  api-key: your-api-key
+  api-secret: your-api-secret

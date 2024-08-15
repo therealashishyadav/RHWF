@@ -1,0 +1,5 @@
+package com.Gallery.model;
+
+public class Image {
+
+}
